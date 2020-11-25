@@ -4,6 +4,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  .song-cover {
+    animation: rotation 20s infinite linear;
+  }
   img {
     width: 20%;
     border-radius: 50%;
@@ -13,5 +16,14 @@
   }
   h3 {
     font-size: 1rem;
+  }
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
   }
 }
