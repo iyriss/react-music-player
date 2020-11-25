@@ -5,12 +5,13 @@ import {
   faPlay,
   faAngleLeft,
   faAngleRight,
+  faPause,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
   const [songInfo, setSongInfo] = useState({
-    currentTime: null,
-    duration: null,
+    currentTime: 0,
+    duration: 0,
   });
   // Ref (instead of doing const audio = document.querySelector('audio'))
   const audioRef = useRef(null); // and as we added it to audio as ref attribute now instead of null current is => {current: audio }
@@ -63,9 +64,9 @@ const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
         <FontAwesomeIcon className="skip-back" size="2x" icon={faAngleLeft} />
         <FontAwesomeIcon
           onClick={playSongHandler}
-          className="play"
+          className="play=pause"
           size="2x"
-          icon={faPlay}
+          icon={isPlaying ? faPause : faPlay}
         />
         <FontAwesomeIcon
           className="skip-forward"
