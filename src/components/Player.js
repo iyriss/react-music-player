@@ -1,5 +1,5 @@
 // import React from "react";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -28,8 +28,27 @@ const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
     }
   };
 
+  console.log("is it playing? ", isPlaying);
+  // This to play only if library song is clicked and play btn is playing, it won't if it is not playing
+  useEffect(() => {
+    if (isPlaying && audioRef.current.paused) {
+      audioRef.current.play();
+    }
+  }, [isPlaying, currentSong]);
+
+  // This to play when library song is clicked and play btn is either paused or playing
+  /*const isInitialMount = useRef(true); //checking if its first mount
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  }, [currentSong, setIsPlaying]);*/
+
   const timeUpdateHandler = (e) => {
-    console.log(e.target);
     const currentTime = e.target.currentTime;
     const duration = e.target.duration;
     setSongInfo({ ...songInfo, currentTime, duration });
