@@ -22,7 +22,7 @@
     width: 25%;
   }
   &:hover {
-    background: rgb(121, 188, 216);
+    background: rgb(231, 248, 255);
   }
   .song-description {
     padding-left: 1rem;
@@ -54,4 +54,8 @@
   background-color: rgba(155, 155, 155, 0.5);
   border-radius: 20px;
   border: transparent;
+}
+
+.selected {
+  background: rgb(170, 204, 218);
 }
