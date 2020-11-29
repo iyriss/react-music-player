@@ -7,6 +7,10 @@
   background: rgb(211, 228, 236);
   box-shadow: 2px 2px 20px gray;
   overflow: scroll;
+  // To hide:
+  transform: translateX(-100%); //so it is hidden to the left
+  transition: all 0.5s ease; //to when we animate the side bar and come back at this speed
+  opacity: 0; //we add opacity back to 1 when we animate the side bar back in .active-library below
   h2 {
     padding: 1rem 2rem;
   }
@@ -41,7 +45,7 @@
   scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
 }
 
-// Manually for the rest
+// Manually for the other browsers (not Firefox)
 *::-webkit-scrollbar {
   width: 5px;
   height: 100%;
@@ -58,4 +62,10 @@
 
 .selected {
   background: rgb(170, 204, 218);
+}
+
+// To show the side bar
+.active-library {
+  transform: translateX(0%);
+  opacity: 1;
 }
