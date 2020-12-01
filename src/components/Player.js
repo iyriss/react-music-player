@@ -30,8 +30,17 @@ const Player = ({
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
-      audioRef.current.play();
-      setIsPlaying(true);
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then((audio) => {
+            // audioRef.current.play();
+            setIsPlaying(true);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
   };
 
@@ -84,22 +93,19 @@ const Player = ({
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
-      audioRef.current.play();
-      setIsPlaying(true);
-      const newSongs = songs.map((s) => {
-        if (s.id === currentSong.id) {
-          return {
-            ...s,
-            active: true,
-          };
-        } else {
-          return {
-            ...s,
-            active: false,
-          };
-        }
-      });
-      setSongs(newSongs);
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then((audio) => {
+            // audioRef.current.play();
+            setIsPlaying(true);
+          })
+          .catch((error) => {
+            console.log(error);
+            // audioRef.current.pause();
+            // setIsPlaying(false);
+          });
+      }
     }
   }, [currentSong]);
 

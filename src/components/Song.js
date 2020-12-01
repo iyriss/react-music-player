@@ -1,7 +1,6 @@
 // import React from "react";
 
 const Song = ({ currentSong, isPlaying }) => {
-  console.log(currentSong);
   return (
     <div className="song-container">
       <img

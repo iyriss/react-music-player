@@ -28,6 +28,7 @@ function App() {
       />
       <Library
         songs={songs}
+        currentSong={currentSong}
         setCurrentSong={setCurrentSong}
         setSongs={setSongs}
         openLibrary={openLibrary}
