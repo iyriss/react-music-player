@@ -14,6 +14,7 @@ const Player = ({
   setIsPlaying,
   songs,
   setCurrentSong,
+  setSongs,
 }) => {
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
@@ -85,8 +86,22 @@ const Player = ({
     } else {
       audioRef.current.play();
       setIsPlaying(true);
+      const newSongs = songs.map((s) => {
+        if (s.id === currentSong.id) {
+          return {
+            ...s,
+            active: true,
+          };
+        } else {
+          return {
+            ...s,
+            active: false,
+          };
+        }
+      });
+      setSongs(newSongs);
     }
-  }, [currentSong, setIsPlaying]);
+  }, [currentSong]);
 
   return (
     <div className="player">
