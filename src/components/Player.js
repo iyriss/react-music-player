@@ -8,7 +8,13 @@ import {
   faPause,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
+const Player = ({
+  currentSong,
+  isPlaying,
+  setIsPlaying,
+  songs,
+  setCurrentSong,
+}) => {
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
     duration: 0,
@@ -28,26 +34,6 @@ const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
     }
   };
 
-  console.log("is it playing? ", isPlaying);
-  // This to play only if library song is clicked and play btn is playing, it won't if it is not playing
-  useEffect(() => {
-    if (isPlaying && audioRef.current.paused) {
-      audioRef.current.play();
-    }
-  }, [isPlaying, currentSong]);
-
-  // This to play when library song is clicked and play btn is either paused or playing
-  /*const isInitialMount = useRef(true); //checking if its first mount
-
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-    } else {
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
-  }, [currentSong, setIsPlaying]);*/
-
   const timeUpdateHandler = (e) => {
     const currentTime = e.target.currentTime;
     const duration = e.target.duration;
@@ -66,6 +52,45 @@ const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
     setSongInfo((prev) => ({ ...prev, currentTime: e.target.value }));
   };
 
+  const skipTrackHandler = (direction) => {
+    //get index of current song we are on
+    let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
+    if (direction === "skip-forward") {
+      setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+    }
+    if (direction === "skip-back") {
+      //following if is for 0 index song bc -1 song doesnt exist
+      if ((currentIndex - 1) % songs.length < 0) {
+        setCurrentSong(songs[songs.length - 1]);
+        return;
+      }
+      setCurrentSong(songs[(currentIndex - 1) % songs.length]);
+    }
+  };
+
+  /*
+    console.log("is it playing? ", isPlaying);
+    // This to play only if library song is clicked and play btn is playing, it won't if it is not playing
+    useEffect(() => {
+      if (isPlaying && audioRef.current.paused) {
+        audioRef.current.play();
+      }
+    }, [isPlaying, currentSong]);
+  */
+
+  // This to play when library song is clicked and play btn is either paused or playing
+  const isInitialMount = useRef(true); //checking if its first mount
+
+  useEffect(() => {
+    console.log("useeffecting");
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  }, [currentSong, setIsPlaying]);
+
   return (
     <div className="player">
       <div className="time-control">
@@ -81,14 +106,20 @@ const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
         <p> {getTime(songInfo.duration || 0)} </p>
       </div>
       <div className="play-control">
-        <FontAwesomeIcon className="skip-back" size="2x" icon={faAngleLeft} />
         <FontAwesomeIcon
-          onClick={playSongHandler}
+          className="skip-back"
+          onClick={() => skipTrackHandler("skip-back")}
+          size="2x"
+          icon={faAngleLeft}
+        />
+        <FontAwesomeIcon
           className="play-pause"
+          onClick={playSongHandler}
           size="2x"
           icon={isPlaying ? faPause : faPlay}
         />
         <FontAwesomeIcon
+          onClick={() => skipTrackHandler("skip-forward")}
           className="skip-forward"
           size="2x"
           icon={faAngleRight}
