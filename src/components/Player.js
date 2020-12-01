@@ -23,25 +23,41 @@ const Player = ({
   // Ref (instead of doing const audio = document.querySelector('audio'))
   const audioRef = useRef(null); // and as we added it to audio as ref attribute now instead of null current is => {current: audio }
 
+  // Audio Promise
+  const playAudio = () => {
+    const playPromise = audioRef.current.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
   // Event Handlers
   const playSongHandler = () => {
-    // console.log(audioRef.current); //output: <audio src="https://mp3.chillhop.com/serve.php/?mp3=10075"></audio>
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then((audio) => {
-            // audioRef.current.play();
-            setIsPlaying(true);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
+      playAudio();
     }
+  };
+
+  const skipTrackHandler = (direction) => {
+    const currentIndex = songs.findIndex((s) => s.id === currentSong.id);
+    let newIndex = currentIndex + direction;
+    //from first song to last song:
+    if (newIndex < 0) {
+      newIndex = songs.length - 1;
+      //from last song to first song:
+    } else if (newIndex >= songs.length) {
+      newIndex = 0;
+    }
+    setCurrentSong(songs[newIndex]);
   };
 
   const timeUpdateHandler = (e) => {
@@ -62,50 +78,13 @@ const Player = ({
     setSongInfo((prev) => ({ ...prev, currentTime: e.target.value }));
   };
 
-  const skipTrackHandler = (direction) => {
-    const currentIndex = songs.findIndex((s) => s.id === currentSong.id);
-    let newIndex = currentIndex + direction;
-
-    //from first song to last song:
-    if (newIndex < 0) {
-      newIndex = songs.length - 1;
-      //from last song to first song:
-    } else if (newIndex >= songs.length) {
-      newIndex = 0;
-    }
-    setCurrentSong(songs[newIndex]);
-  };
-
-  /*
-    console.log("is it playing? ", isPlaying);
-    // This to play only if library song is clicked and play btn is playing, it won't if it is not playing
-    useEffect(() => {
-      if (isPlaying && audioRef.current.paused) {
-        audioRef.current.play();
-      }
-    }, [isPlaying, currentSong]);
-  */
-
   // This to play when library song is clicked and play btn is either paused or playing
   const isInitialMount = useRef(true); //checking if its first mount
-
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then((audio) => {
-            // audioRef.current.play();
-            setIsPlaying(true);
-          })
-          .catch((error) => {
-            console.log(error);
-            // audioRef.current.pause();
-            // setIsPlaying(false);
-          });
-      }
+      playAudio();
     }
   }, [currentSong]);
 
