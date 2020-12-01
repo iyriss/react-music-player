@@ -53,19 +53,17 @@ const Player = ({
   };
 
   const skipTrackHandler = (direction) => {
-    //get index of current song we are on
-    let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
-    if (direction === "skip-forward") {
-      setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+    const currentIndex = songs.findIndex((s) => s.id === currentSong.id);
+    let newIndex = currentIndex + direction;
+
+    //from first song to last song:
+    if (newIndex < 0) {
+      newIndex = songs.length - 1;
+      //from last song to first song:
+    } else if (newIndex >= songs.length) {
+      newIndex = 0;
     }
-    if (direction === "skip-back") {
-      //following if is for 0 index song bc -1 song doesnt exist
-      if ((currentIndex - 1) % songs.length < 0) {
-        setCurrentSong(songs[songs.length - 1]);
-        return;
-      }
-      setCurrentSong(songs[(currentIndex - 1) % songs.length]);
-    }
+    setCurrentSong(songs[newIndex]);
   };
 
   /*
@@ -82,7 +80,6 @@ const Player = ({
   const isInitialMount = useRef(true); //checking if its first mount
 
   useEffect(() => {
-    console.log("useeffecting");
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
@@ -108,7 +105,7 @@ const Player = ({
       <div className="play-control">
         <FontAwesomeIcon
           className="skip-back"
-          onClick={() => skipTrackHandler("skip-back")}
+          onClick={() => skipTrackHandler(-1)}
           size="2x"
           icon={faAngleLeft}
         />
@@ -119,7 +116,7 @@ const Player = ({
           icon={isPlaying ? faPause : faPlay}
         />
         <FontAwesomeIcon
-          onClick={() => skipTrackHandler("skip-forward")}
+          onClick={() => skipTrackHandler(1)}
           className="skip-forward"
           size="2x"
           icon={faAngleRight}
