@@ -14,7 +14,6 @@ const Player = ({
   setIsPlaying,
   songs,
   setCurrentSong,
-  setSongs,
 }) => {
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
@@ -86,19 +85,34 @@ const Player = ({
     } else {
       playAudio();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSong]);
+
+  // Add input range animation
+  const rangeAnimation = {
+    transform: `translateX(${Math.round(
+      (songInfo.currentTime / songInfo.duration) * 100
+    )}%)`,
+  };
+
+  const gradientColours = {
+    background: `linear-gradient(to right, ${currentSong.color[0]}, ${currentSong.color[1]})`,
+  };
 
   return (
     <div className="player">
       <div className="time-control">
         <p> {getTime(songInfo.currentTime)} </p>
-        <input
-          min={0}
-          max={songInfo.duration || 0}
-          value={songInfo.currentTime}
-          onChange={dragHandler}
-          type="range"
-        />
+        <div className="track" style={gradientColours}>
+          <input
+            min={0}
+            max={songInfo.duration || 0}
+            value={songInfo.currentTime}
+            onChange={dragHandler}
+            type="range"
+          />
+          <div style={rangeAnimation} className="animate-track"></div>
+        </div>
         {/* Added or zero below to fix NaN error */}
         <p> {getTime(songInfo.duration || 0)} </p>
       </div>
