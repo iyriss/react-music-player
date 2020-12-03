@@ -19,6 +19,14 @@ body {
   font-family: "Lato", sans-serif;
 }
 
+.App {
+  transition: all 0.5s ease;
+}
+
+.library-open {
+  margin-left: 20%;
+}
+
 @import "./song";
 @import "./player";
 @import "./library";
