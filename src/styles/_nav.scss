@@ -1,7 +1,6 @@
 nav {
   min-height: 10vh;
   display: flex;
-  flex-direction: row;
   justify-content: space-around;
   align-items: center;
   button {
@@ -16,6 +15,14 @@ nav {
     &:hover {
       background: rgb(65, 65, 65);
       color: white;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  nav {
+    button {
+      z-index: 10;
     }
   }
 }
