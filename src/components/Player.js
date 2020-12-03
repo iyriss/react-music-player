@@ -65,6 +65,13 @@ const Player = ({
     setSongInfo({ ...songInfo, currentTime, duration });
   };
 
+  const songEndHandler = () => {
+    const currentIndex = songs.findIndex((s) => s.id === currentSong.id);
+    setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+    if (isPlaying) {
+      playAudio();
+    }
+  };
   const getTime = (time) => {
     return (
       Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
@@ -141,6 +148,7 @@ const Player = ({
         onLoadedMetadata={timeUpdateHandler}
         ref={audioRef}
         src={currentSong.audio}
+        onEnded={songEndHandler}
       ></audio>
     </div>
   );
