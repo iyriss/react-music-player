@@ -68,7 +68,7 @@ const chillHop = () => {
       cover:
         "https://chillhop.com/wp-content/uploads/2020/10/efaa848553d09b4d9fc0752844456e41b34de276-1024x1024.jpg",
       audio: "https://mp3.chillhop.com/serve.php/?mp3=10247",
-      color: ["#8CD8F6", "#9CDCF0"],
+      color: ["#6A5CAC", "#8CD8F6"],
       id: uuidv4(),
       // active: false,
     },
