@@ -90,9 +90,9 @@ const Player = ({
 
   // Add input range animation
   const rangeAnimation = {
-    transform: `translateX(${Math.round(
+    transform: `translateX(${
       (songInfo.currentTime / songInfo.duration) * 100
-    )}%)`,
+    }%)`,
   };
 
   const gradientColours = {
