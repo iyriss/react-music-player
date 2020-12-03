@@ -62,3 +62,12 @@ input[type="range"]::-webkit-slider-thumb {
   transform: translateX(100%);
   pointer-events: none; //we can grab and drag thumb even if our new range is above the pointer
 }
+
+@media screen and (max-width: 768px) {
+  .time-control {
+    width: 90%;
+  }
+  .play-control {
+    width: 60%;
+  }
+}
