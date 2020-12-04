@@ -67,6 +67,7 @@ input[type="range"]::-moz-range-thumb {
   top: 0;
   left: 0;
   transform: translateX(100%);
+  transition: all 0.2s ease-out;
   pointer-events: none; //we can grab and drag thumb even if our new range is above the pointer
 }
 
